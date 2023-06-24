@@ -10,7 +10,11 @@ It's similar to Tor2Web, where accessing a domain name on the surface web proxie
 - Domain Name
 - Backend Tor Hidden Service
 
-
+## Quick Start
+Replace SERVER_NAME and ONION_ADDRESS
+```bash
+docker run --rm --name s2onion -e SERVER_NAME=YourFront.example.com -e ONION_ADDRESS=YourBackend.onion -it -p 80:80 -d ghcr.io/39ff/kakurega:main
+```
 
 ## (Optional) Host Machine iptables for Cloudflare
 ```
