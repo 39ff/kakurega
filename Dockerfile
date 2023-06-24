@@ -1,7 +1,8 @@
 FROM ubuntu:20.04
-
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y \
+    tzdata \
     nginx \
     tor \
     privoxy \
@@ -13,6 +14,9 @@ RUN echo 'SocksPort 9050' >> /etc/tor/torrc
 # Privoxy config
 RUN echo 'forward-socks5t / localhost:9050 .' >> /etc/privoxy/config
 RUN echo 'accept-intercepted-requests 1' >> /etc/privoxy/config
+
+# disable IPv6 Listen for Ubuntu 20.04 bug
+RUN sed -i '/listen-address  \[::1\]:8118/d' /etc/privoxy/config
 
 # Place holder for Nginx config, will be replaced by docker-entrypoint.sh
 RUN echo 'server {\n\
