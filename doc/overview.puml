@@ -1,0 +1,34 @@
+@startuml
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+skinparam defaultTextAlignment center
+
+
+box "Surface Web" #ADD8E6
+actor Client
+participant "CDN(Cloudflare)" as CF
+participant Nginx as N
+participant Privoxy as P
+end box
+
+box "Tor Network" #696969
+participant "Tor\nHidden Service" as T
+end box
+
+Client -> CF: HTTP Request example.com
+activate CF
+CF -> N: Forward HTTP Request
+activate N
+N -> P: Forward HTTP request
+activate P
+P -> T: Forward HTTP request xxxxxxxx.onion
+activate T
+T --> P: HTTP Response
+P --> N: Forward HTTP response
+N --> CF: HTTP Response
+CF --> Client: HTTP Response
+deactivate CF
+deactivate N
+deactivate P
+deactivate T
+@enduml
